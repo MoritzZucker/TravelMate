@@ -8,7 +8,7 @@ export default function Page() {
     <View>
      <Link style={styles.button} href="./travel/traveloptions" asChild>
       <Pressable>
-        <Text>Home</Text>
+        <Text style={styles.text}>Neue Reise</Text>
       </Pressable>
     </Link>
     </View>
@@ -23,7 +23,9 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: 'blue',
-    color:'white',
+    marginBottom: 25,
+    marginLeft: 10,
+    marginRight: 10,
   },
   text: {
     fontSize: 16,

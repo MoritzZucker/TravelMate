@@ -3,7 +3,7 @@ import { Pressable, Text } from 'react-native';
 import { Link } from 'expo-router';
 import { StyleSheet, Image } from 'react-native';
 
-export default function TravelOptionsScreen() {
+export default function GroupTripScreen() {
   return (
     <View>
      <Link style={styles.button} href="./solotrip" asChild>

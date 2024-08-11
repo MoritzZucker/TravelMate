@@ -5,6 +5,8 @@ export default function RootLayout() {
     <Stack>
       <Stack.Screen name="index" />
       <Stack.Screen name="traveloptions" />
+      <Stack.Screen name="solotrip" />
+      <Stack.Screen name="grouptrip" />
     </Stack>
   );
 }
