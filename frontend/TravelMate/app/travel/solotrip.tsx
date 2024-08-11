@@ -13,20 +13,21 @@ export default function TravekOptionsScreen() {
   const [selectedTravelMethod, setselectedTravelMethod] = useState();
   const [selectedTravelType, setselectedTravelType] = useState();
 
-  const [range, setRange] = React.useState({ startDate: undefined, endDate: undefined });
-  const [openCal, setOpenCal] = React.useState(false);
+  const [range, setRange] = React.useState({ startDate: new Date(), endDate: new Date() });
+  const [openCal, setOpen] = React.useState(false);
 
+  const [number, onChangeNumber] = React.useState('');
 
   const onDismiss = React.useCallback(() => {
-    setOpenCal(false);
-  }, [setOpenCal]);
+    setOpen(false);
+  }, [setOpen]);
 
- const onConfirm = React.useCallback(
+  const onConfirm = React.useCallback(
     ({ startDate, endDate }) => {
-      setOpenCal(false);
+      setOpen(false);
       setRange({ startDate, endDate });
     },
-    [setOpenCal, setRange]
+    [setOpen, setRange]
   );
 
   
@@ -52,20 +53,28 @@ export default function TravekOptionsScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Date from</Text>
-      <View style={{ justifyContent: 'center', flex: 1, alignItems: 'center' }}>
-      <Button onPress={() => setOpenCal(true)} uppercase={false} mode="outlined">
+      
+        <Button onPress={() => setOpen(true)} uppercase={false} mode="outlined" title='Select Date'>
           Pick range
         </Button>
         <DatePickerModal
+          disableStatusBarPadding
           locale="en"
           mode="range"
-          visible={open}
+          visible={openCal}
           onDismiss={onDismiss}
           startDate={range.startDate}
           endDate={range.endDate}
           onConfirm={onConfirm}
+          startYear={2023}
+          endYear={2024}
         />
-        </View>
+        <Text>
+        {range.startDate ? range.startDate.toLocaleDateString('de-DE') : 'Not set'}
+        -
+        {range.endDate ? range.endDate.toLocaleDateString('de-DE') : 'Not set'}
+      </Text>
+
 
       <Text style={styles.text}>Select Travel Method</Text>
       <Picker
@@ -96,6 +105,13 @@ export default function TravekOptionsScreen() {
         <Picker.Item label="Roundtrip" value="roundtrip" />
         <Picker.Item label="Party trip" value="party" />
       </Picker>
+
+      <Text style={styles.text}>Budget</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeNumber}
+        value={number}
+      />
 
 
       <Button
@@ -134,6 +150,12 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   picker: {
+    height: 40, 
+    borderColor: 'gray', 
+    borderWidth: 1, 
+    width:160,
+  },
+  input: {
     height: 40, 
     borderColor: 'gray', 
     borderWidth: 1, 
