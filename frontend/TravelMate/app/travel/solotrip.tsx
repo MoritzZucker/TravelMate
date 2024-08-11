@@ -10,24 +10,26 @@ import { DatePickerModal } from 'react-native-paper-dates';
 export default function TravekOptionsScreen() {
   const [text, setText] = useState('');
   const pickerRef = useRef();
-
+  const [selectedTravelMethod, setselectedTravelMethod] = useState();
+  const [selectedTravelType, setselectedTravelType] = useState();
 
   const [range, setRange] = React.useState({ startDate: undefined, endDate: undefined });
-  const [open, setOpen] = React.useState(false);
+  const [openCal, setOpenCal] = React.useState(false);
 
-   const onDismiss = React.useCallback(() => {
-    setOpen(false);
-  }, [setOpen]);
+
+  const onDismiss = React.useCallback(() => {
+    setOpenCal(false);
+  }, [setOpenCal]);
 
  const onConfirm = React.useCallback(
     ({ startDate, endDate }) => {
-      setOpen(false);
+      setOpenCal(false);
       setRange({ startDate, endDate });
     },
-    [setOpen, setRange]
+    [setOpenCal, setRange]
   );
 
-
+  
 
   const handleInputChange = (input) => {
     setText(input);
@@ -37,16 +39,24 @@ export default function TravekOptionsScreen() {
     
   }
 
-  function setSelectedLanguage(itemValue: any): void {
-    throw new Error('Function not implemented.');
+  
+
+  function open() {
+    pickerRef.current.focus();
+  }
+
+  function close() {
+    pickerRef.current.blur();
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Select Date</Text>
-
-      <Button style={styles.calender} onPress={() => setOpen(true)} title='-'/>
-      <DatePickerModal
+      <Text style={styles.text}>Date from</Text>
+      <View style={{ justifyContent: 'center', flex: 1, alignItems: 'center' }}>
+      <Button onPress={() => setOpenCal(true)} uppercase={false} mode="outlined">
+          Pick range
+        </Button>
+        <DatePickerModal
           locale="en"
           mode="range"
           visible={open}
@@ -54,16 +64,17 @@ export default function TravekOptionsScreen() {
           startDate={range.startDate}
           endDate={range.endDate}
           onConfirm={onConfirm}
-      />
-
+        />
+        </View>
 
       <Text style={styles.text}>Select Travel Method</Text>
-      <Picker style={styles.picker}
+      <Picker
+        style={styles.picker}
         ref={pickerRef}
-        selectedValue={setSelectedLanguage}
+        selectedValue={selectedTravelMethod}
         onValueChange={(itemValue, itemIndex) =>
-          setSelectedLanguage(itemValue)
-        }>
+          setselectedTravelMethod(itemValue)
+      }>
         <Picker.Item label="Any" value="anymethod" />
         <Picker.Item label="Car" value="car" />
         <Picker.Item label="Train" value="train" />
@@ -71,12 +82,13 @@ export default function TravekOptionsScreen() {
       </Picker>
 
       <Text style={styles.text}>Travel Type</Text>
-      <Picker style={styles.picker}
+      <Picker
+        style={styles.picker}
         ref={pickerRef}
-        selectedValue={setSelectedLanguage}
+        selectedValue={selectedTravelType}
         onValueChange={(itemValue, itemIndex) =>
-          setSelectedLanguage(itemValue)
-        }>
+          setselectedTravelType(itemValue)
+      }>
         <Picker.Item label="Any" value="anytype" />
         <Picker.Item label="City trip" value="city" />
         <Picker.Item label="Beach trip" value="beach" />
@@ -126,9 +138,5 @@ const styles = StyleSheet.create({
     borderColor: 'gray', 
     borderWidth: 1, 
     width:160,
-  },
-  calender: {
-    width:160,
   }
-
 });
